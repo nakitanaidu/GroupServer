@@ -68,9 +68,8 @@ router.post("/itemdetails", (req, res) => {
 
   var data = req.body;
   console.log(">>> ", data);
-  Object.assign(newuseritems, data);
-
-  newuseritems.save().then(
+  Object.assign(newuseritems, dat)
+    newuseritems.save().then(
     result => {
       return res.json(result);
     },
