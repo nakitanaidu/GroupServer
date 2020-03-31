@@ -6,10 +6,13 @@ const ItemDetails = require("./itemdetails-model");
 // this will be our data base's data structure
 var UserItemsSchema = new Schema(
   {
-    items_image: String,
-    item_name: String,
-    item_price: Number,
-    id: { type: Number, default: Date.now() }
+    _id: Object,
+    womens_category: String,
+    mens_category: String,
+    image: String,
+    title: String,
+    price: String,
+    
   },
   {
     timestamps: true,
