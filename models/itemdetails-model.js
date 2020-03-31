@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-const UserItems = require("./useritems-model");
 const Comment = require("./comments-model");
 
 // When viewing itemdetails details we may need the writer and user comments
@@ -17,7 +16,10 @@ var ItemDetailsSchema = new Schema(
     size: String,
     condition: String,
     description: String,
-
+  
+  
+    //  " added by cruz - must use when creating new user items to link to commenting"
+   id: String,
    
   },
   {
@@ -26,6 +28,14 @@ var ItemDetailsSchema = new Schema(
   }
 );
 
+ItemDetailsSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "id",
+  foreignField: "item_id",
+  justOne: false
+});
+
+
 // singular capitalized name for the mongo collection
 // the collection in your database should be lowercase and plural
-module.exports = mongoose.model("ItemDetails", ItemDetailsSchema);
+module.exports = mongoose.model("ItemDetail", ItemDetailsSchema);
