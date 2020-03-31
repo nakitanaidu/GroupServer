@@ -37,4 +37,4 @@ ItemDetailsSchema.virtual("comments", {
 
 // singular capitalized name for the mongo collection
 // the collection in your database should be lowercase and plural
-module.exports = mongoose.model("ItemDetail", ItemDetailsSchema);
+module.exports = mongoose.model("ItemDetails", ItemDetailsSchema);
