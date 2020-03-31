@@ -5,7 +5,7 @@ const fileUpload = require("express-fileupload");
 const myconn = require("./connection");
 
 // every single collection will need a model
-const ItemDetails = require("./models/itemdetails-model");
+const ItemDetail = require("./models/itemdetails-model");
 const Comment = require("./models/comments-model");
 
 // init express, bodyparser now built in to express...
@@ -64,7 +64,7 @@ app.use("/api", router);
 // CRUD
 // CREATE UserItems
 router.post("/itemdetails", (req, res) => {
-  var newuseritems = new ItemDetails();
+  var newuseritems = new ItemDetail();
 
   var data = req.body;
   console.log(">>> ", data);
@@ -81,8 +81,10 @@ router.post("/itemdetails", (req, res) => {
 
 // READ all useritems
 router.get("/itemdetails", (req, res) => {
-  ItemDetails.find()
-    .populate("comments")
+  console.log(req.body)
+  // res.send("hello world")
+  ItemDetail.find()
+    // .populate("comments")
     .then(data => {
       res.json(data);
     });
@@ -90,7 +92,7 @@ router.get("/itemdetails", (req, res) => {
 // DELETE A useritems - Will probably never need this
 // send this endpoint the mongo _id and it ill delete the useritems
 router.delete("/itemdetails/:id", (req, res) => {
-  ItemDetails.deleteOne({ _id: req.params.id }).then(
+  ItemDetail.deleteOne({ _id: req.params.id }).then(
     () => {
       res.json({ result: true });
     },
@@ -103,7 +105,7 @@ router.delete("/itemdetails/:id", (req, res) => {
 // CREATE NEW ITEMSDETAILS WITH OTIONAL IMAGE UPLOAD
 // image would be available at http://localhost:4000/myimage.jpg
 router.post("/itemdetails", (req, res) => {
-  var collectionModel = new ItemDetails();
+  var collectionModel = new ItemDetail();
 
   if (req.files) {
     var files = Object.values(req.files);
@@ -124,20 +126,13 @@ router.post("/itemdetails", (req, res) => {
     updateAfterFileUpload(req, res, collectionModel);
   }
 });
-// READ All ITEMDETAILS
-router.get("/itemdetails", (req, res) => {
-  ItemDetails.find()
-    .populate("comments")
-    .then(data => {
-      res.json(data);
-    });
-});
+
 
 // READ ONE ITEMDETAILS ONLY
 // Need to add  useritems details and all comments to the itemdetails - use populate
 // - see the itemdetails model. Also need to sort the comments to most recent first.
 router.get("/itemdetails/:id", (req, res) => {
-  ItemDetails.findOne({ _id: req.params.id })
+  ItemDetail.findOne({ _id: req.params.id })
     .populate("useritems")
     .populate({ path: "comments", options: { sort: { updatedAt: -1 } } })
     .then(itemdetails => {
@@ -176,7 +171,7 @@ app.get("/*", (req, res) => {
 });
 
 // grab a port and start listening
-const port = 4000;
+const port = 4001;
 app.listen(process.env.PORT || port, () => {
   console.log(`Example app listening on port ${port}!`);
 });

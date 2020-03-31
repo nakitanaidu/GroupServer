@@ -15,4 +15,4 @@ var CommentsSchema = new Schema(
 );
 
 // singular capitalized name for the mongo collection
-module.exports = mongoose.model("Comments", CommentsSchema);
+module.exports = mongoose.model("Comment", CommentsSchema);
