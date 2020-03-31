@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
-const UserItems = require("./useritems-model");
 const Comment = require("./comments-model");
 
 // When viewing itemdetails details we may need the writer and user comments
