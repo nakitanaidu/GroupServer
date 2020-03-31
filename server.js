@@ -62,35 +62,36 @@ const router = express.Router();
 app.use("/api", router);
 
 // CRUD
-// CREATE UserItems
-router.post("/itemdetails", (req, res) => {
-  var newuseritems = new ItemDetails();
+// CREATE Items
+router.post("/items", (req, res) => {
+  var newitems = new Items();
 
   var data = req.body;
   console.log(">>> ", data);
-  Object.assign(newuseritems, data);
+  Object.assign(newitems, data);
 
-  newuseritems.save().then(
+  newitems.save().then(
     result => {
       return res.json(result);
     },
     () => {
-      return res.send("problem adding new user");
+      return res.send("problem adding new items");
     }
   );
 });
 
-// READ all useritems
-router.get("/itemdetails", (req, res) => {
+// READ all items
+router.get("/items", (req, res) => {
   ItemDetails.find()
-    .populate("comments")
-    .then(data => {
-      res.json(data);
+    // .populate("books")
+    .then(items => {
+      res.json(items);
     });
 });
-// DELETE A useritems - Will probably never need this
-// send this endpoint the mongo _id and it ill delete the useritems
-router.delete("/itemdetails/:id", (req, res) => {
+
+// DELETE A ITEM - Will probably never need this
+// send this endpoint the mongo _id and it ill delete the item
+router.delete("/items/:id", (req, res) => {
   ItemDetails.deleteOne({ _id: req.params.id }).then(
     () => {
       res.json({ result: true });
@@ -101,10 +102,10 @@ router.delete("/itemdetails/:id", (req, res) => {
   );
 });
 
-// CREATE NEW ITEMSDETAILS WITH OTIONAL IMAGE UPLOAD
+// CREATE NEW ITEM WITH OPTIONAL IMAGE UPLOAD
 // image would be available at http://localhost:4000/myimage.jpg
-router.post("/itemdetails", (req, res) => {
-  var collectionModel = new ItemDetails();
+router.post("/items", (req, res) => {
+  var collectionModel = new Books();
 
   if (req.files) {
     var files = Object.values(req.files);
@@ -125,45 +126,26 @@ router.post("/itemdetails", (req, res) => {
     updateAfterFileUpload(req, res, collectionModel);
   }
 });
-// READ All ITEMDETAILS
-router.get("/itemdetails", (req, res) => {
-  ItemDetails.find()
-    .populate("comments")
-    .then(data => {
-      res.json(data);
-    });
-});
 
-// READ ONE ITEMDETAILS ONLY
-// Need to add  useritems details and all comments to the itemdetails - use populate
-// - see the itemdetails model. Also need to sort the comments to most recent first.
-router.get("/itemdetails/:id", (req, res) => {
-  ItemDetails.findOne({ _id: req.params.id })
-    .populate("useritems")
-    .populate({ path: "comments", options: { sort: { updatedAt: -1 } } })
-    .then(itemdetails => {
-      res.json([itemdetails]);
-    });
-});
 
-// POST a comment - every new comment is tied to a itemdetails title
-// itemdetails title is stored in a hidden input field inside our form
-router.post("/comments", (req, res) => {
-  var newComment = new Comment();
-  var data = req.body;
-  Object.assign(newComment, data);
-  console.log(">>> ", data);
 
-  newComment.save().then(
-    result => {
-      return res.json(result);
-    },
-    () => {
-      return res.send("problem adding new comment");
-    }
-  );
-});
-
+  // POST a comment - every new comment is tied to a book title
+  // book title is stored in a hidden input field inside our form
+  router.post("/comments", (req, res) => {
+    var newComment = new Comment();
+    var data = req.body;
+    Object.assign(newComment, data);
+    console.log(">>> ", data);
+  
+    newComment.save().then(
+      result => {
+        return res.json(result);
+      },
+      () => {
+        return res.send("problem adding new comment");
+      }
+    );
+  });
 
 
 //////////////////////////////////////////////////////////////////////
