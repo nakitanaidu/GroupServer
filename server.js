@@ -62,7 +62,7 @@ const router = express.Router();
 app.use("/api", router);
 
 // CRUD
-// CREATE UserItems
+// CREATE ITEMS
 router.post("/itemdetails", (req, res) => {
   var newuseritems = new ItemDetails();
 
@@ -88,7 +88,7 @@ router.get("/itemdetails", (req, res) => {
       res.json(data);
     });
 });
-// DELETE A useritems - Will probably never need this
+// DELETE A USERSITEM - Will probably never need this
 // send this endpoint the mongo _id and it ill delete the useritems
 router.delete("/itemdetails/:id", (req, res) => {
   ItemDetails.deleteOne({ _id: req.params.id }).then(
@@ -101,7 +101,7 @@ router.delete("/itemdetails/:id", (req, res) => {
   );
 });
 
-// CREATE NEW ITEMSDETAILS WITH OTIONAL IMAGE UPLOAD
+// CREATE NEW ITEMSDETAILS WITH OPTIONAL IMAGE UPLOAD
 // image would be available at http://localhost:4000/myimage.jpg
 router.post("/itemdetails", (req, res) => {
   var collectionModel = new ItemDetails();
