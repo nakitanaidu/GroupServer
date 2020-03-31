@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
-const Comment = require("./itemdetails-model");
+
 var Schema = mongoose.Schema;
 
 var CommentsSchema = new Schema(
   {
     comment: String,
+
+      //  " added by cruz - must use when creating new user items to link to commenting"
+   id: String,
   },
   {
     timestamps: true
@@ -12,4 +15,4 @@ var CommentsSchema = new Schema(
 );
 
 // singular capitalized name for the mongo collection
-module.exports = mongoose.model("Comment", CommentsSchema);
+module.exports = mongoose.model("Comments", CommentsSchema);
