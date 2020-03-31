@@ -16,7 +16,8 @@ var ItemDetailsSchema = new Schema(
     size: String,
     condition: String,
     description: String,
-
+  //  " added by cruz - must use when creating add users to link to comment"
+   id: String,
    
   },
   {
@@ -25,6 +26,14 @@ var ItemDetailsSchema = new Schema(
   }
 );
 
+ItemDetailsSchema.virtual("comments", {
+  ref: "Comment",
+  localField: "id",
+  foreignField: "item_id",
+  justOne: false
+});
+
+
 // singular capitalized name for the mongo collection
 // the collection in your database should be lowercase and plural
-module.exports = mongoose.model("ItemDetails", ItemDetailsSchema);
+module.exports = mongoose.model("ItemDetail", ItemDetailsSchema);

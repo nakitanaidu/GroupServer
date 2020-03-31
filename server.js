@@ -5,7 +5,6 @@ const fileUpload = require("express-fileupload");
 const myconn = require("./connection");
 
 // every single collection will need a model
-const UserItems = require("./models/useritems-model");
 const ItemDetails = require("./models/itemdetails-model");
 const Comment = require("./models/comments-model");
 
@@ -64,8 +63,8 @@ app.use("/api", router);
 
 // CRUD
 // CREATE UserItems
-router.post("/useritems", (req, res) => {
-  var newuseritems = new UserItems();
+router.post("/itemdetails", (req, res) => {
+  var newuseritems = new ItemDetails();
 
   var data = req.body;
   console.log(">>> ", data);
@@ -82,18 +81,17 @@ router.post("/useritems", (req, res) => {
 });
 
 // READ all useritems
-router.get("/useritems", (req, res) => {
-  UserItems.find()
-    .populate("itemdetails")
-    .then(useritems => {
-      res.json(useritems);
+router.get("/itemdetails", (req, res) => {
+  ItemDetails.find()
+    .populate("comments")
+    .then(data => {
+      res.json(data);
     });
 });
-
 // DELETE A useritems - Will probably never need this
 // send this endpoint the mongo _id and it ill delete the useritems
-router.delete("/useritems/:id", (req, res) => {
-  UserItems.deleteOne({ _id: req.params.id }).then(
+router.delete("/itemdetails/:id", (req, res) => {
+  ItemDetails.deleteOne({ _id: req.params.id }).then(
     () => {
       res.json({ result: true });
     },
@@ -130,9 +128,9 @@ router.post("/itemdetails", (req, res) => {
 // READ All ITEMDETAILS
 router.get("/itemdetails", (req, res) => {
   ItemDetails.find()
-    .populate("useritems")
-    .then(itemdetails => {
-      res.json(itemdetails);
+    .populate("comments")
+    .then(data => {
+      res.json(data);
     });
 });
 
