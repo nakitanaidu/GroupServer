@@ -16,7 +16,9 @@ var ItemDetailsSchema = new Schema(
     size: String,
     condition: String,
     description: String,
-  //  " added by cruz - must use when creating add users to link to comment"
+  
+  
+    //  " added by cruz - must use when creating new user items to link to commenting"
    id: String,
    
   },
