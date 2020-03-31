@@ -8,12 +8,17 @@ const Comment = require("./comments-model");
 
 var ItemDetailsSchema = new Schema(
   {
-    item_image: String,
-    item_name: String,
-    item_price: Number,
-    item_size: Number,
-    item_condition: String,
-    item_description: String
+    _id: Object,
+    womens_category: String,
+    mens_category: String,
+    image: String,
+    title: String,
+    price: String,
+    size: String,
+    condition: String,
+    description: String,
+
+   
   },
   {
     timestamps: true,
