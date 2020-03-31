@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
-const Comment = require("./itemdetails-model");
+
 var Schema = mongoose.Schema;
 
 var CommentsSchema = new Schema(
   {
     comment: String,
+
+      //  " added by cruz - must use when creating new user items to link to commenting"
+   id: String,
   },
   {
     timestamps: true

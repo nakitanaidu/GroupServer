@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 const Comment = require("./comments-model");
 
+
 // When viewing itemdetails details we may need user comments
 // so this model links to two other collectons
 
@@ -17,9 +18,7 @@ var ItemDetailsSchema = new Schema(
     condition: String,
     description: String,
   
-  
-    //  " added by cruz - must use when creating new user items to link to commenting"
-   id: String,
+
    
   },
   {
