@@ -69,8 +69,8 @@ router.post("/itemdetails", (req, res) => {
 
   var data = req.body;
   console.log(">>> ", data);
-  Object.assign(newuseritems, dat)
-    newuseritems.save().then(
+  Object.assign(newuseritems, data);
+  newuseritems.save().then(
     result => {
       return res.json(result);
     },
@@ -82,14 +82,35 @@ router.post("/itemdetails", (req, res) => {
 
 // READ all useritems
 router.get("/itemdetails", (req, res) => {
-  console.log(req.body)
-  // res.send("hello world")
   ItemDetail.find()
-    // .populate("comments")
+    .populate("comments")
     .then(data => {
       res.json(data);
     });
 });
+
+// READ all mens
+router.get("/itemdetails/men", (req, res) => {
+  console.log(req.body);
+  // res.send("hello world")
+  ItemDetail.find({ mens_category: "Men's clothing" })
+    .populate("comments")
+    .then(data => {
+      res.json(data);
+    });
+});
+
+// READ all womens
+router.get("/itemdetails/women", (req, res) => {
+  console.log(req.body);
+  // res.send("hello world")
+  ItemDetail.find({ womens_category: "Women's clothing" })
+    .populate("comments")
+    .then(data => {
+      res.json(data);
+    });
+});
+
 // DELETE A USERSITEM - Will probably never need this
 // send this endpoint the mongo _id and it ill delete the useritems
 router.delete("/itemdetails/:id", (req, res) => {
@@ -128,7 +149,6 @@ router.post("/itemdetails", (req, res) => {
   }
 });
 
-
 // READ ONE ITEMDETAILS ONLY
 // Need to add  useritems details and all comments to the itemdetails - use populate
 // - see the itemdetails model. Also need to sort the comments to most recent first.
@@ -158,8 +178,6 @@ router.post("/comments", (req, res) => {
     }
   );
 });
-
-
 
 //////////////////////////////////////////////////////////////////////
 // THE rest of this is dealing with unhandled routes in a nice way //
