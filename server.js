@@ -154,7 +154,7 @@ router.post("/itemdetails", (req, res) => {
 // - see the itemdetails model. Also need to sort the comments to most recent first.
 router.get("/itemdetails/:id", (req, res) => {
   ItemDetail.findOne({ _id: req.params.id })
-    .populate("useritems")
+    // .populate("useritems")
     .populate({ path: "comments", options: { sort: { updatedAt: -1 } } })
     .then(itemdetails => {
       res.json([itemdetails]);
