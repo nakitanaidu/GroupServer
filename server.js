@@ -124,6 +124,82 @@ router.delete("/itemdetails/:id", (req, res) => {
   );
 });
 
+//UPDATE
+// update for users with no form image
+router.put("/itemdetails/:id", (req, res) => {
+  ItemDetail.findOne({ _id: req.params.id }, function(err, objFromDB) {
+    if (err)
+      return res.json({
+        result: false
+      });
+    var data = req.body;
+    Object.assign(objFromDB, data);
+    objFromDB.save().then(
+      response => {
+        res.json({
+          result: true
+        });
+      },
+      error => {
+        res.json({
+          result: false
+        });
+      }
+    );
+  });
+});
+
+// update for users with form image
+router.put("/itemdetails/with-form-image/:id", (req, res) => {
+  ItemDetail.findOne({ _id: req.params.id }, function(err, objFromDB) {
+    if (err)
+      return res.json({
+        result: false
+      });
+
+    if (req.files) {
+      var files = Object.values(req.files);
+      var uploadedFileObject = files[0];
+      var uploadedFileName = uploadedFileObject.name;
+      var nowTime = Date.now();
+      var newFileName = `${nowTime}_${uploadedFileName}`;
+
+      uploadedFileObject.mv(`public/${newFileName}`).then(
+        params => {
+          updateAfterFileUpload(req, res, objFromDB, newFileName);
+        },
+        params => {
+          updateAfterFileUpload(req, res, objFromDB);
+        }
+      );
+    } else {
+      updateAfterFileUpload(req, res, objFromDB);
+    }
+
+    /////////
+  });
+});
+
+// add single image to express - return filename, does not write to mongodb
+router.put("/itemdetails/upload", (req, res) => {
+  if (req.files) {
+    var files = Object.values(req.files);
+    var uploadedFileObject = files[0];
+    var uploadedFileName = uploadedFileObject.name;
+    var nowTime = Date.now();
+    var newFileName = `${nowTime}_${uploadedFileName}`;
+
+    uploadedFileObject.mv(`public/${newFileName}`, function() {
+      // update app
+      res.json({ filename: newFileName, result: true });
+    });
+  } else {
+    res.json({ result: false });
+  }
+});
+
+///////////////////////////////////////////////
+
 // CREATE NEW ITEMSDETAILS WITH OPTIONAL IMAGE UPLOAD
 // image would be available at http://localhost:4000/myimage.jpg
 router.post("/itemdetails", (req, res) => {
