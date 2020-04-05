@@ -18,8 +18,6 @@ var ItemDetailsSchema = new Schema(
     condition: String,
     description: String,
   
-
-   
   },
   {
     timestamps: true,

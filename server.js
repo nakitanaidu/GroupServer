@@ -150,53 +150,59 @@ router.put("/itemdetails/:id", (req, res) => {
 });
 
 // update for users with form image
-router.put("/itemdetails/with-form-image/:id", (req, res) => {
-  ItemDetail.findOne({ _id: req.params.id }, function(err, objFromDB) {
-    if (err)
-      return res.json({
-        result: false
-      });
+// router.put("/itemdetails/with-form-image/:id", (req, res) => {
+//   ItemDetail.findOne({ _id: req.params.id }, function(err, objFromDB) {
+//     if (err)
+//       return res.json({
+//         result: false
+//       });
 
-    if (req.files) {
-      var files = Object.values(req.files);
-      var uploadedFileObject = files[0];
-      var uploadedFileName = uploadedFileObject.name;
-      var nowTime = Date.now();
-      var newFileName = `${nowTime}_${uploadedFileName}`;
+//     if (req.files) {
+//       var files = Object.values(req.files);
+//       var uploadedFileObject = files[0];
+//       var uploadedFileName = uploadedFileObject.name;
+//       var nowTime = Date.now();
+//       var newFileName = `${nowTime}_${uploadedFileName}`;
 
-      uploadedFileObject.mv(`public/${newFileName}`).then(
-        params => {
-          updateAfterFileUpload(req, res, objFromDB, newFileName);
-        },
-        params => {
-          updateAfterFileUpload(req, res, objFromDB);
-        }
-      );
-    } else {
-      updateAfterFileUpload(req, res, objFromDB);
-    }
+//       uploadedFileObject.mv(`public/${newFileName}`).then(
+//         params => {
+//           updateAfterFileUpload(req, res, objFromDB, newFileName);
+//         },
+//         params => {
+//           updateAfterFileUpload(req, res, objFromDB);
+//         }
+//       );
+//     } else {
+//       updateAfterFileUpload(req, res, objFromDB);
+//     }
+//     /////////
+//   });
+// });
 
-    /////////
+router.put("/itemdetails/:id", (req, res) => {
+  ItemDetail.findOne({ _id: req.params.id }, function (err, objFromDB) {
+  console.log(">>> ", req.body);
+   console.log("+++ ", objFromDB);
   });
 });
 
 // add single image to express - return filename, does not write to mongodb
-router.put("/itemdetails/upload", (req, res) => {
-  if (req.files) {
-    var files = Object.values(req.files);
-    var uploadedFileObject = files[0];
-    var uploadedFileName = uploadedFileObject.name;
-    var nowTime = Date.now();
-    var newFileName = `${nowTime}_${uploadedFileName}`;
+// router.put("/itemdetails/upload", (req, res) => {
+//   if (req.files) {
+//     var files = Object.values(req.files);
+//     var uploadedFileObject = files[0];
+//     var uploadedFileName = uploadedFileObject.name;
+//     var nowTime = Date.now();
+//     var newFileName = `${nowTime}_${uploadedFileName}`;
 
-    uploadedFileObject.mv(`public/${newFileName}`, function() {
-      // update app
-      res.json({ filename: newFileName, result: true });
-    });
-  } else {
-    res.json({ result: false });
-  }
-});
+//     uploadedFileObject.mv(`public/${newFileName}`, function() {
+//       // update app
+//       res.json({ filename: newFileName, result: true });
+//     });
+//   } else {
+//     res.json({ result: false });
+//   }
+// });
 
 ///////////////////////////////////////////////
 
