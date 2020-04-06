@@ -28,14 +28,14 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
   objFromDB.profile_image = fileName;
 
   objFromDB.save().then(
-    response => {
+    (response) => {
       res.json({
-        result: true
+        result: true,
       });
     },
-    error => {
+    (error) => {
       res.json({
-        result: false
+        result: false,
       });
     }
   );
@@ -45,12 +45,12 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
 // init database stuff
 mongoose.connect(myconn.atlas, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 
 const db = mongoose.connection;
 
-db.on("connected", e => {
+db.on("connected", (e) => {
   console.log("+++ Mongoose connected ");
 });
 
@@ -71,7 +71,7 @@ router.post("/itemdetails", (req, res) => {
   console.log(">>> ", data);
   Object.assign(newuseritems, data);
   newuseritems.save().then(
-    result => {
+    (result) => {
       return res.json(result);
     },
     () => {
@@ -84,7 +84,7 @@ router.post("/itemdetails", (req, res) => {
 router.get("/itemdetails", (req, res) => {
   ItemDetail.find()
     .populate("comments")
-    .then(data => {
+    .then((data) => {
       res.json(data);
     });
 });
@@ -95,7 +95,7 @@ router.get("/itemdetails/men", (req, res) => {
   // res.send("hello world")
   ItemDetail.find({ mens_category: "Men's clothing" })
     .populate("comments")
-    .then(data => {
+    .then((data) => {
       res.json(data);
     });
 });
@@ -106,7 +106,7 @@ router.get("/itemdetails/women", (req, res) => {
   // res.send("hello world")
   ItemDetail.find({ womens_category: "Women's clothing" })
     .populate("comments")
-    .then(data => {
+    .then((data) => {
       res.json(data);
     });
 });
@@ -125,64 +125,42 @@ router.delete("/itemdetails/:id", (req, res) => {
 });
 
 //UPDATE
-// update for users with no form image
+// for users with form image
+
 router.put("/itemdetails/:id", (req, res) => {
-  ItemDetail.findOne({ _id: req.params.id }, function(err, objFromDB) {
+  console.log(">>>> ", req.body);
+  ItemDetail.findOne({ _id: req.params.id }, function (err, objFromDB) {
     if (err)
       return res.json({
-        result: false
+        result: false,
       });
-    var data = req.body;
-    Object.assign(objFromDB, data);
-    objFromDB.save().then(
-      response => {
-        res.json({
-          result: true
-        });
-      },
-      error => {
-        res.json({
-          result: false
-        });
-      }
-    );
+
+    if (req.files) {
+      var files = Object.values(req.files);
+      var uploadedFileObject = files[0];
+      var uploadedFileName = uploadedFileObject.name;
+      var nowTime = Date.now();
+      var newFileName = `${nowTime}_${uploadedFileName}`;
+
+      uploadedFileObject.mv(`public/${newFileName}`).then(
+        (params) => {
+          updateAfterFileUpload(req, res, objFromDB, newFileName);
+        },
+        (params) => {
+          updateAfterFileUpload(req, res, objFromDB);
+        }
+      );
+    } else {
+      updateAfterFileUpload(req, res, objFromDB);
+    }
+    /////////
   });
 });
 
-// update for users with form image
-// router.put("/itemdetails/with-form-image/:id", (req, res) => {
-//   ItemDetail.findOne({ _id: req.params.id }, function(err, objFromDB) {
-//     if (err)
-//       return res.json({
-//         result: false
-//       });
-
-//     if (req.files) {
-//       var files = Object.values(req.files);
-//       var uploadedFileObject = files[0];
-//       var uploadedFileName = uploadedFileObject.name;
-//       var nowTime = Date.now();
-//       var newFileName = `${nowTime}_${uploadedFileName}`;
-
-//       uploadedFileObject.mv(`public/${newFileName}`).then(
-//         params => {
-//           updateAfterFileUpload(req, res, objFromDB, newFileName);
-//         },
-//         params => {
-//           updateAfterFileUpload(req, res, objFromDB);
-//         }
-//       );
-//     } else {
-//       updateAfterFileUpload(req, res, objFromDB);
-//     }
-//     /////////
-//   });
-// });
-
 router.put("/itemdetails/:id", (req, res) => {
   ItemDetail.findOne({ _id: req.params.id }, function (err, objFromDB) {
-  console.log(">>> ", req.body);
-   console.log("+++ ", objFromDB);
+    console.log(">>> ", req.body);
+    console.log("+++ ", objFromDB);
   });
 });
 
@@ -219,10 +197,10 @@ router.post("/itemdetails", (req, res) => {
     var newFileName = `${nowTime}_${uploadedFileName}`;
 
     uploadedFileObject.mv(`public/${newFileName}`).then(
-      params => {
+      (params) => {
         updateAfterFileUpload(req, res, collectionModel, newFileName);
       },
-      params => {
+      (params) => {
         updateAfterFileUpload(req, res, collectionModel);
       }
     );
@@ -238,7 +216,7 @@ router.get("/itemdetails/:id", (req, res) => {
   ItemDetail.findOne({ _id: req.params.id })
     // .populate("useritems")
     .populate({ path: "comments", options: { sort: { updatedAt: -1 } } })
-    .then(itemdetails => {
+    .then((itemdetails) => {
       res.json([itemdetails]);
     });
 });
@@ -252,7 +230,7 @@ router.post("/comments", (req, res) => {
   console.log(">>> ", data);
 
   newComment.save().then(
-    result => {
+    (result) => {
       return res.json(result);
     },
     () => {
