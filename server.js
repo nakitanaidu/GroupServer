@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // added to allow us to upload images to public folder
 app.use(fileUpload());
-app.use(express.static("public"));
+app.use("/assets", express.static("public"));
 // end init express
 
 // my functions
