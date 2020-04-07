@@ -24,8 +24,8 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
   // form data from frontend is stored in the request body , req.body
   var data = req.body;
   Object.assign(objFromDB, data);
-
-  objFromDB.profile_image = fileName;
+  // needs to match the document/model
+  objFromDB.image = fileName;
 
   objFromDB.save().then(
     (response) => {
@@ -157,12 +157,12 @@ router.put("/itemdetails/:id", (req, res) => {
   });
 });
 
-router.put("/itemdetails/:id", (req, res) => {
-  ItemDetail.findOne({ _id: req.params.id }, function (err, objFromDB) {
-    console.log(">>> ", req.body);
-    console.log("+++ ", objFromDB);
-  });
-});
+// router.put("/itemdetails/:id", (req, res) => {
+//   ItemDetail.findOne({ _id: req.params.id }, function (err, objFromDB) {
+//     console.log(">>> ", req.body);
+//     console.log("+++ ", objFromDB);
+//   });
+// });
 
 // add single image to express - return filename, does not write to mongodb
 // router.put("/itemdetails/upload", (req, res) => {
