@@ -21,7 +21,6 @@ app.use("/assets", express.static("public"));
 
 // my functions
 function updateAfterFileUpload(req, res, objFromDB, fileName) {
-  // form data from frontend is stored in the request body , req.body
   var data = req.body;
   Object.assign(objFromDB, data);
   // needs to match the document/model
@@ -29,9 +28,7 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
 
   objFromDB.save().then(
     (response) => {
-      res.json({
-        result: true,
-      });
+      res.json(objFromDB);
     },
     (error) => {
       res.json({
@@ -64,21 +61,6 @@ app.use("/api", router);
 
 // CRUD
 // CREATE ITEMS
-router.post("/itemdetails", (req, res) => {
-  var newuseritems = new ItemDetail();
-
-  var data = req.body;
-  console.log(">>> ", data);
-  Object.assign(newuseritems, data);
-  newuseritems.save().then(
-    (result) => {
-      return res.json(result);
-    },
-    () => {
-      return res.send("problem adding new user");
-    }
-  );
-});
 
 // READ all useritems
 router.get("/itemdetails", (req, res) => {
@@ -163,7 +145,7 @@ router.put("/itemdetails/:id", (req, res) => {
 // image would be available at http://localhost:4000/myimage.jpg
 
 router.post("/itemdetails", (req, res) => {
-  var collectionModel = new Car();
+  var collectionModel = new ItemDetail();
 
   console.log("++++ ", req.body);
 
