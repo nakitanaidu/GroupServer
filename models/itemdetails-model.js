@@ -3,7 +3,7 @@ var Schema = mongoose.Schema;
 const Comment = require("./comments-model");
 
 
-// When viewing itemdetails details we may need user comments
+// When viewing itemdetails details we may need us-er comments
 // so this model links to two other collectons
 
 var ItemDetailsSchema = new Schema(
