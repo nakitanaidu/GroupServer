@@ -157,37 +157,15 @@ router.put("/itemdetails/:id", (req, res) => {
   });
 });
 
-// router.put("/itemdetails/:id", (req, res) => {
-//   ItemDetail.findOne({ _id: req.params.id }, function (err, objFromDB) {
-//     console.log(">>> ", req.body);
-//     console.log("+++ ", objFromDB);
-//   });
-// });
-
-// add single image to express - return filename, does not write to mongodb
-// router.put("/itemdetails/upload", (req, res) => {
-//   if (req.files) {
-//     var files = Object.values(req.files);
-//     var uploadedFileObject = files[0];
-//     var uploadedFileName = uploadedFileObject.name;
-//     var nowTime = Date.now();
-//     var newFileName = `${nowTime}_${uploadedFileName}`;
-
-//     uploadedFileObject.mv(`public/${newFileName}`, function() {
-//       // update app
-//       res.json({ filename: newFileName, result: true });
-//     });
-//   } else {
-//     res.json({ result: false });
-//   }
-// });
-
 ///////////////////////////////////////////////
 
 // CREATE NEW ITEMSDETAILS WITH OPTIONAL IMAGE UPLOAD
 // image would be available at http://localhost:4000/myimage.jpg
+
 router.post("/itemdetails", (req, res) => {
-  var collectionModel = new ItemDetail();
+  var collectionModel = new Car();
+
+  console.log("++++ ", req.body);
 
   if (req.files) {
     var files = Object.values(req.files);
