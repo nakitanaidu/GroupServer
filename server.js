@@ -21,7 +21,6 @@ app.use("/assets", express.static("public"));
 
 // my functions
 function updateAfterFileUpload(req, res, objFromDB, fileName) {
-  // form data from frontend is stored in the request body , req.body
   var data = req.body;
   Object.assign(objFromDB, data);
   // needs to match the document/model
@@ -29,9 +28,7 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
 
   objFromDB.save().then(
     (response) => {
-      res.json({
-        result: true,
-      });
+      res.json(objFromDB);
     },
     (error) => {
       res.json({
@@ -64,21 +61,6 @@ app.use("/api", router);
 
 // CRUD
 // CREATE ITEMS
-router.post("/itemdetails", (req, res) => {
-  var newuseritems = new ItemDetail();
-
-  var data = req.body;
-  console.log(">>> ", data);
-  Object.assign(newuseritems, data);
-  newuseritems.save().then(
-    (result) => {
-      return res.json(result);
-    },
-    () => {
-      return res.send("problem adding new user");
-    }
-  );
-});
 
 // READ all useritems
 router.get("/itemdetails", (req, res) => {
@@ -157,37 +139,15 @@ router.put("/itemdetails/:id", (req, res) => {
   });
 });
 
-// router.put("/itemdetails/:id", (req, res) => {
-//   ItemDetail.findOne({ _id: req.params.id }, function (err, objFromDB) {
-//     console.log(">>> ", req.body);
-//     console.log("+++ ", objFromDB);
-//   });
-// });
-
-// add single image to express - return filename, does not write to mongodb
-// router.put("/itemdetails/upload", (req, res) => {
-//   if (req.files) {
-//     var files = Object.values(req.files);
-//     var uploadedFileObject = files[0];
-//     var uploadedFileName = uploadedFileObject.name;
-//     var nowTime = Date.now();
-//     var newFileName = `${nowTime}_${uploadedFileName}`;
-
-//     uploadedFileObject.mv(`public/${newFileName}`, function() {
-//       // update app
-//       res.json({ filename: newFileName, result: true });
-//     });
-//   } else {
-//     res.json({ result: false });
-//   }
-// });
-
 ///////////////////////////////////////////////
 
 // CREATE NEW ITEMSDETAILS WITH OPTIONAL IMAGE UPLOAD
 // image would be available at http://localhost:4000/myimage.jpg
+
 router.post("/itemdetails", (req, res) => {
   var collectionModel = new ItemDetail();
+
+  console.log("++++ ", req.body);
 
   if (req.files) {
     var files = Object.values(req.files);
