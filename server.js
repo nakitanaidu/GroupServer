@@ -181,6 +181,30 @@ router.get("/itemdetails/:id", (req, res) => {
     });
 });
 
+// READ all comments
+router.get("/comments", (req, res) => {
+  Comment.find().then(
+    (data) => {
+      res.json(data);
+    },
+    (error) => {
+      res.json(error);
+    }
+  );
+});
+
+// delete a comment
+router.delete("/comments/:id", (req, res) => {
+  Comment.deleteOne({ _id: req.params.id }).then(
+    () => {
+      res.json({ result: true });
+    },
+    () => {
+      res.json({ result: false });
+    }
+  );
+});
+
 // POST a comment - every new comment is tied to a itemdetails title
 // itemdetails title is stored in a hidden input field inside our form
 router.post("/comments", (req, res) => {
