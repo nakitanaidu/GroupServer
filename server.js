@@ -223,6 +223,20 @@ router.post("/comments", (req, res) => {
   );
 });
 
+router.delete("/comments/delete-all", (req, res) => {
+  //CAREFUL with this it works.....
+  Comment.find()
+    .remove({})
+    .then(
+      () => {
+        res.json({ result: true });
+      },
+      () => {
+        res.json({ result: false });
+      }
+    );
+});
+
 //////////////////////////////////////////////////////////////////////
 // THE rest of this is dealing with unhandled routes in a nice way //
 router.get("/*", (req, res) => {
