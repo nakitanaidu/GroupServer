@@ -16,7 +16,7 @@ var ItemDetailsSchema = new Schema(
     size: String,
     condition: String,
     description: String,
-    id: { type: Number, default: Date.now() },
+    id: Number,
   },
   {
     timestamps: true,
