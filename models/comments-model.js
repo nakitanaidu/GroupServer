@@ -6,11 +6,11 @@ var CommentsSchema = new Schema(
   {
     comment: String,
 
-      //  " added by cruz - must use when creating new user items to link to commenting"
-   id: String,
+    //  " added by cruz - must use when creating new user items to link to commenting"
+    id: String,
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
