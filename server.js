@@ -72,10 +72,20 @@ router.get("/itemdetails", (req, res) => {
 });
 
 // READ all mens
+// router.get("/itemdetails/men", (req, res) => {
+//   console.log(req.body);
+//   // res.send("hello world")
+//   ItemDetail.find({ mens_category: "Men's clothing" })
+//     .populate("comments")
+//     .then((data) => {
+//       res.json(data);
+//     });
+// });
+
 router.get("/itemdetails/men", (req, res) => {
   console.log(req.body);
   // res.send("hello world")
-  ItemDetail.find({ mens_category: "Men's clothing" })
+  ItemDetail.find({ category: "Men's clothing" })
     .populate("comments")
     .then((data) => {
       res.json(data);
@@ -83,10 +93,20 @@ router.get("/itemdetails/men", (req, res) => {
 });
 
 // READ all womens
+// router.get("/itemdetails/women", (req, res) => {
+//   console.log(req.body);
+//   // res.send("hello world")
+//   ItemDetail.find({ womens_category: "Women's clothing" })
+//     .populate("comments")
+//     .then((data) => {
+//       res.json(data);
+//     });
+// });
+
 router.get("/itemdetails/women", (req, res) => {
   console.log(req.body);
   // res.send("hello world")
-  ItemDetail.find({ womens_category: "Women's clothing" })
+  ItemDetail.find({ category: "Women's clothing" })
     .populate("comments")
     .then((data) => {
       res.json(data);
