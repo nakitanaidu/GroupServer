@@ -24,7 +24,9 @@ function updateAfterFileUpload(req, res, objFromDB, fileName) {
   var data = req.body;
   Object.assign(objFromDB, data);
   // needs to match the document/model
-  objFromDB.image = fileName;
+  if (typeof fileName === "string") {
+    objFromDB.image = fileName;
+  }
 
   objFromDB.save().then(
     (response) => {
@@ -124,6 +126,28 @@ router.delete("/itemdetails/:id", (req, res) => {
       res.json({ result: false });
     }
   );
+});
+
+// dev only route to force id on item - if its missing
+// id is needed for the comments to work
+router.put("/itemdetails/update-id/:id", (req, res) => {
+  ItemDetail.findOne({ _id: req.params.id }, function (err, objFromDB) {
+    if (typeof objFromDB.id !== "number") {
+      objFromDB.id = Date.now();
+      objFromDB.save().then(
+        (response) => {
+          res.json(objFromDB);
+        },
+        (error) => {
+          res.json({
+            result: false,
+          });
+        }
+      );
+    } else {
+      res.send(objFromDB);
+    }
+  });
 });
 
 //UPDATE
